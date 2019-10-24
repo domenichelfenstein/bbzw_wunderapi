@@ -2,6 +2,9 @@
   "name": "wunderapi",
   "version": "1.0.0",
   "description": "Ein Wunderlist Clone",
+  "scripts": {
+    "start": "node ./server.js"
+  },
   "keywords": [
     "wunderlist",
     "API"
