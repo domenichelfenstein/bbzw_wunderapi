@@ -11,7 +11,7 @@ wunderApi.post("/todos", (req, res) => {
     currentTodoId++;
     allTodos = [
         ...allTodos,
-        Object.assign(req.body, { id: currentTodoId })
+        Object.assign(req.body, { id: currentTodoId, state: "open" })
     ];
     res.sendStatus(200);
 });
@@ -32,8 +32,22 @@ wunderApi.put("/todos/:id", (req, res) => {
     res.sendStatus(200);
 });
 
+wunderApi.put("/todos/:id/done", (req, res) => {
+    const todoId = req.params.id;
+
+    allTodos = [
+        ...allTodos.filter(x => x.id != todoId),
+        Object.assign(allTodos.find(x => x.id == todoId), { state: "done" })
+    ];
+    res.sendStatus(200);
+});
+
 wunderApi.get("/todos", (req, res) => {
     res.json(allTodos);
+});
+wunderApi.get("/todos/open", (req, res) => {
+    res.json(allTodos
+        .filter(x => x.state === "open"));
 });
 
 wunderApi.listen(80, () => console.log("WunderApi started on http://localhost:80"));
