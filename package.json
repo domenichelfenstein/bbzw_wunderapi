@@ -1,0 +1,11 @@
+{
+  "name": "wunderapi",
+  "version": "1.0.0",
+  "description": "Ein Wunderlist Clone",
+  "keywords": [
+    "wunderlist",
+    "API"
+  ],
+  "author": "Domenic Helfenstein",
+  "license": "MIT"
+}
