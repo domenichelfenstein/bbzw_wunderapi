@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const wunderApi = express();
-wunderApi.use(bodyParser.json());
+const wunderApp = express();
+wunderApp.use(bodyParser.json());
 
 let currentTodoId = 0;
 let allTodos = [];
 
-wunderApi.post("/todos", (req, res) => {
+wunderApp.post("/todos", (req, res) => {
     currentTodoId++;
     allTodos = [
         ...allTodos,
@@ -16,13 +16,13 @@ wunderApi.post("/todos", (req, res) => {
     res.sendStatus(200);
 });
 
-wunderApi.delete("/todos/:id", (req, res) => {
+wunderApp.delete("/todos/:id", (req, res) => {
     allTodos = allTodos
         .filter(x => x.id != req.params.id);
     res.sendStatus(200);
 });
 
-wunderApi.put("/todos/:id", (req, res) => {
+wunderApp.put("/todos/:id", (req, res) => {
     const todoId = req.params.id;
 
     allTodos = [
@@ -32,7 +32,7 @@ wunderApi.put("/todos/:id", (req, res) => {
     res.sendStatus(200);
 });
 
-wunderApi.put("/todos/:id/done", (req, res) => {
+wunderApp.put("/todos/:id/done", (req, res) => {
     const todoId = req.params.id;
 
     allTodos = [
@@ -42,12 +42,14 @@ wunderApi.put("/todos/:id/done", (req, res) => {
     res.sendStatus(200);
 });
 
-wunderApi.get("/todos", (req, res) => {
-    res.json(allTodos);
+wunderApp.get("/todos", (req, res) => {
+    res.json(allTodos.slice().sort((a, b) => a.id - b.id).reverse());
 });
-wunderApi.get("/todos/open", (req, res) => {
+wunderApp.get("/todos/open", (req, res) => {
     res.json(allTodos
         .filter(x => x.state === "open"));
 });
 
-wunderApi.listen(80, () => console.log("WunderApi started on http://localhost:80"));
+wunderApp.use('/', express.static("frontend"));
+
+wunderApp.listen(80, () => console.log("WunderApi started on http://localhost:80"));
